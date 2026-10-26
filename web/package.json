@@ -1,0 +1,13 @@
+{
+  "name": "menumini-web-pwa",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "MenuMini Luxury Commercial Digital Menu & QR PWA",
+  "scripts": {
+    "start": "node server.mjs",
+    "dev": "node server.mjs"
+  },
+  "dependencies": {
+    "qrcode": "^1.5.4"
+  }
+}

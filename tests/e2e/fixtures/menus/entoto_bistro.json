@@ -1,0 +1,31 @@
+{
+  "venue": {
+    "name": "Entoto Forest Bistro",
+    "slug": "entoto-forest-bistro",
+    "city": "Addis Ababa",
+    "subcity": "Gulele",
+    "currency": "ETB",
+    "placards": {
+      "telebirr": { "shortcode": "912384", "account_name": "Entoto Park Bistro" },
+      "cbe_birr": { "account_number": "1000881920394", "account_name": "Entoto Park Bistro" }
+    }
+  },
+  "sections": [
+    {
+      "title_en": "Mountain Breakfast",
+      "title_am": "የተራራ ቁርስ",
+      "items": [
+        {
+          "name_en": "Special Foul with Fresh Egg & Yogurt",
+          "name_am": "ስፔሻል ፉል በእንቁላል እና እርጎ",
+          "price_etb_cents": 26000
+        },
+        {
+          "name_en": "Korerima Spiced Herbal Tea",
+          "name_am": "የኮረሪማ ቅመም ሻይ",
+          "price_etb_cents": 8000
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1229 @@
+/**
+ * MenuMini Luxury Light - Responsive Physics & Touch Interactions Design System
+ * Path: /run/media/n-a-t/Local Disk_HDD/Mm-Mp/web/design/responsive_physics.css
+ *
+ * Core Engineering Architecture:
+ * 1. Fluid Typography & Spacing: Mathematical clamp() equations for 360px -> 4K viewports
+ * 2. Mobile Touch Physics: 44px+ tap targets, -webkit-tap-highlight-color removal, 0.965 active depress
+ * 3. Horizontal Momentum Swipe: Hidden scrollbars, scroll-snap-type, edge mask gradients
+ * 4. Adaptive Phone Simulator: Authentic 3D titanium frame on desktop, full-width fluid card on mobile
+ * 5. Zero Layout Shift (CLS 0.000): Explicit aspect ratios, min-height pane reservations, tabular nums
+ * 6. Light Luxury Palette: Warm Alabaster (#FAF9F6), Crisp White (#FFFFFF), Burnished Copper (#B45309)
+ */
+
+/* ==========================================================================
+   1. Root Fluid Typography & Metric Tokens (360px Mobile to 4K Ultra-Wide)
+   ========================================================================== */
+
+:root {
+  /* Fluid Typography Scale (Formula: clamp(min, slope * vw + offset, max)) */
+  --font-hero-title: clamp(2.35rem, 4.5vw + 0.9rem, 4.8rem);
+  --font-hero-subtitle: clamp(1.02rem, 1.25vw + 0.65rem, 1.42rem);
+  --font-section-title: clamp(1.85rem, 2.7vw + 0.75rem, 3.25rem);
+  --font-section-desc: clamp(0.95rem, 0.9vw + 0.65rem, 1.25rem);
+  --font-card-title: clamp(1.2rem, 1.35vw + 0.7rem, 1.85rem);
+  --font-body: clamp(0.92rem, 0.38vw + 0.78rem, 1.12rem);
+  --font-ui: clamp(0.86rem, 0.28vw + 0.74rem, 1.02rem);
+  --font-caption: clamp(0.78rem, 0.22vw + 0.7rem, 0.9rem);
+  --font-micro: clamp(0.68rem, 0.16vw + 0.62rem, 0.8rem);
+
+  /* Fluid Section Spacing */
+  --space-section-y: clamp(3.5rem, 6.5vw + 1rem, 9rem);
+  --space-section-x: clamp(1rem, 4vw, 4.5rem);
+  --space-grid-gap: clamp(1.25rem, 2.4vw + 0.5rem, 3.25rem);
+  --space-card-padding: clamp(1.25rem, 2.2vw + 0.5rem, 2.75rem);
+  --space-container-max: min(1560px, 94vw);
+
+  /* Border Radii */
+  --radius-card: clamp(12px, 1.2vw + 8px, 24px);
+  --radius-pill: 9999px;
+  --radius-button: 8px;
+
+  /* Touch Physics Constants */
+  --touch-target-min: 44px;
+  --touch-press-scale: 0.965;
+  --touch-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --touch-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  /* Light Luxury Theme Reference Colors */
+  --lux-bg-page: #FAF9F6;
+  --lux-bg-surface: #FFFFFF;
+  --lux-bg-subtle: #F5F4EF;
+  --lux-text-primary: #0F172A;
+  --lux-text-secondary: #334155;
+  --lux-text-muted: #64748B;
+  --lux-copper-primary: #B45309;
+  --lux-copper-hover: #9A3412;
+  --lux-copper-amber: #F59E0B;
+  --lux-copper-soft: rgba(180, 83, 9, 0.08);
+  --lux-border-delicate: rgba(180, 83, 9, 0.15);
+  --lux-border-highlight: rgba(180, 83, 9, 0.35);
+  --lux-shadow-card: 0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(180, 83, 9, 0.04);
+  --lux-shadow-hover: 0 20px 40px -8px rgba(15, 23, 42, 0.1), 0 8px 16px -4px rgba(180, 83, 9, 0.08);
+}
+
+/* ==========================================================================
+   2. Global Mobile Touch Baseline & Layout Stability Rules
+   ========================================================================== */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  scroll-padding-top: clamp(4.5rem, 6.5vw, 6rem);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--lux-bg-page);
+  color: var(--lux-text-primary);
+  font-family: 'Plus Jakarta Sans', 'Noto Sans Ethiopic', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: var(--font-body);
+  line-height: 1.6;
+  overflow-x: hidden;
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Eliminate awkward touch highlights on iOS & Android */
+button,
+a,
+input,
+select,
+textarea,
+.perspective-tab,
+.role-btn,
+.step-indicator,
+.tier-card,
+.lang-pill {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Ensure mobile form fields never trigger Safari auto-zoom (min 16px font-size) */
+input,
+select,
+textarea {
+  font-size: 16px !important;
+}
+
+/* Container containment to prevent horizontal overflow & CLS */
+.content-wrapper {
+  width: 100%;
+  max-width: var(--space-container-max);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: max(var(--space-section-x), env(safe-area-inset-left));
+  padding-right: max(var(--space-section-x), env(safe-area-inset-right));
+  position: relative;
+  z-index: 1;
+}
+
+/* ==========================================================================
+   3. Fluid Typography Application Across Landing Page Elements
+   ========================================================================== */
+
+/* Hero Section */
+.hero-title {
+  font-family: 'Cinzel', serif;
+  font-size: var(--font-hero-title) !important;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--lux-text-primary);
+  margin-bottom: clamp(1rem, 1.8vw, 1.75rem);
+}
+
+.hero-subtitle {
+  font-size: var(--font-hero-subtitle) !important;
+  color: var(--lux-text-secondary);
+  line-height: 1.65;
+  max-width: 780px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: clamp(1.75rem, 3.2vw, 2.75rem);
+}
+
+/* Section Headings */
+.section-title {
+  font-family: 'Cinzel', serif;
+  font-size: var(--font-section-title) !important;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  color: var(--lux-text-primary);
+  margin-bottom: clamp(0.5rem, 1vw, 0.85rem);
+}
+
+.section-desc {
+  font-size: var(--font-section-desc) !important;
+  color: var(--lux-text-muted);
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto clamp(2rem, 4vw, 3.75rem) auto;
+  line-height: 1.55;
+}
+
+/* Component & Card Titles */
+.tab-title,
+.tier-title,
+.calc-card-title,
+.preview-business-name {
+  font-family: 'Cinzel', serif;
+  font-size: var(--font-card-title) !important;
+  line-height: 1.3;
+}
+
+/* Tabular numbers for financial metrics & counter stability */
+.slider-value,
+#savingsTotal,
+.tier-price-val,
+.stat-metric {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+  display: inline-block;
+  min-width: 3.5ch;
+  text-align: right;
+}
+
+/* ==========================================================================
+   4. Section Padding & Structural Containers
+   ========================================================================== */
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  background: rgba(250, 249, 246, 0.92);
+  border-bottom: 1px solid var(--lux-border-delicate);
+  padding: clamp(0.85rem, 1.5vw, 1.25rem) max(var(--space-section-x), env(safe-area-inset-right));
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.hero-section {
+  padding: clamp(3.5rem, 7vw, 7.5rem) 0 clamp(2.5rem, 5vw, 5rem) 0;
+  text-align: center;
+}
+
+#simulator {
+  padding: var(--space-section-y) 0 !important;
+}
+
+#calculator {
+  padding: var(--space-section-y) 0 !important;
+}
+
+#tiers {
+  padding: var(--space-section-y) 0 !important;
+}
+
+#register {
+  padding: var(--space-section-y) 0 !important;
+}
+
+footer {
+  border-top: 1px solid var(--lux-border-delicate);
+  padding: clamp(2.5rem, 5vw, 4.5rem) var(--space-section-x);
+  text-align: center;
+  color: var(--lux-text-muted);
+  font-size: var(--font-ui);
+  background: var(--lux-bg-subtle);
+}
+
+/* ==========================================================================
+   5. Hero Section & Banking Placards (Zero Layout Shift)
+   ========================================================================== */
+
+.hero-placards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: clamp(1rem, 2vw, 2rem);
+  max-width: 860px;
+  margin: clamp(2rem, 3.5vw, 3.5rem) auto 0 auto;
+}
+
+/* Explicit aspect-ratio & minimum height prevents layout shift during font load */
+.telebirr-placard,
+.cbe-birr-placard {
+  aspect-ratio: 16 / 10;
+  min-height: 210px;
+  border-radius: var(--radius-card);
+  padding: clamp(1.2rem, 2vw, 1.8rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--lux-border-delicate);
+  box-shadow: var(--lux-shadow-card);
+  transition: transform 0.3s var(--touch-ease), box-shadow 0.3s var(--touch-ease);
+  will-change: transform;
+}
+
+.telebirr-placard {
+  background: linear-gradient(145deg, #FFFFFF 0%, #F5F4EF 100%);
+  border-top: 3px solid #009FE3;
+}
+
+.cbe-birr-placard {
+  background: linear-gradient(145deg, #FFFFFF 0%, #F5F4EF 100%);
+  border-top: 3px solid #781048;
+}
+
+/* Hero CTA Row */
+.hero-cta-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(0.75rem, 1.5vw, 1.5rem);
+  flex-wrap: wrap;
+  margin-top: clamp(1.25rem, 2.5vw, 2rem);
+}
+
+/* ==========================================================================
+   6. Stakeholder Simulator & Authentic 3D Titanium Phone Frame
+   ========================================================================== */
+
+.simulator-container {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(340px, 380px);
+  gap: clamp(1.5rem, 3vw, 3.5rem);
+  align-items: center;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+/* Left: Perspective Navigation */
+.perspective-menu {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.85rem, 1.2vw, 1.25rem);
+}
+
+.perspective-tab {
+  background: var(--lux-bg-surface);
+  border: 1px solid var(--lux-border-delicate);
+  border-radius: var(--radius-card);
+  padding: clamp(1.15rem, 1.8vw, 1.65rem);
+  cursor: pointer;
+  position: relative;
+  box-shadow: var(--lux-shadow-card);
+  transition: all 0.32s var(--touch-ease);
+  will-change: transform, border-color, box-shadow;
+}
+
+.perspective-tab::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 15%;
+  bottom: 15%;
+  width: 4px;
+  border-radius: 0 4px 4px 0;
+  background: var(--lux-copper-primary);
+  opacity: 0;
+  transform: scaleY(0.4);
+  transition: all 0.3s var(--touch-ease);
+}
+
+.perspective-tab:hover {
+  border-color: var(--lux-border-highlight);
+  transform: translateY(-2px);
+  box-shadow: var(--lux-shadow-hover);
+}
+
+.perspective-tab.active {
+  border-color: var(--lux-copper-primary);
+  background: #FFFFFF;
+  box-shadow: 0 12px 30px -4px rgba(180, 83, 9, 0.12), 0 4px 12px -2px rgba(15, 23, 42, 0.06);
+}
+
+.perspective-tab.active::before {
+  opacity: 1;
+  transform: scaleY(1);
+}
+
+.tab-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--font-micro);
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--lux-copper-primary);
+  background: var(--lux-copper-soft);
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-pill);
+  margin-bottom: 0.5rem;
+}
+
+.tab-desc {
+  font-size: var(--font-ui);
+  color: var(--lux-text-muted);
+  line-height: 1.5;
+  margin-top: 0.35rem;
+}
+
+/* Right: Authentic 3D Titanium Phone Frame Mockup (CLS 0) */
+.device-mockup {
+  position: relative;
+  width: 350px;
+  height: 700px;
+  aspect-ratio: 350 / 700;
+  border-radius: 48px;
+  background: #1E293B;
+  padding: 12px;
+  margin: 0 auto;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.15) inset,
+    0 0 0 3px #0F172A,
+    0 0 0 5px rgba(180, 83, 9, 0.25),
+    0 25px 60px -15px rgba(15, 23, 42, 0.35);
+  transform-style: preserve-3d;
+  transition: transform 0.4s var(--touch-ease), box-shadow 0.4s var(--touch-ease);
+  will-change: transform;
+}
+
+/* Titanium metallic edge reflection */
+.device-mockup::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 50px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(180, 83, 9, 0.35) 45%, rgba(15, 23, 42, 0.8) 75%, rgba(255, 255, 255, 0.2) 100%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Dynamic Island / Speaker Pill */
+.device-speaker {
+  width: 96px;
+  height: 24px;
+  background: #000000;
+  border-radius: var(--radius-pill);
+  margin: 0 auto 10px auto;
+  position: relative;
+  z-index: 5;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.device-speaker::after {
+  content: '';
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #0D1B2A;
+  border: 1px solid #1E293B;
+}
+
+/* Screen Viewport Inside Simulator (CLS 0: strict minimum dimensions) */
+.device-screen {
+  background: #FFFFFF;
+  border-radius: 36px;
+  width: 100%;
+  height: calc(100% - 34px);
+  min-height: 640px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 1.25rem 1.15rem;
+  display: flex;
+  flex-direction: column;
+  color: var(--lux-text-primary);
+  box-sizing: border-box;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+.device-screen::-webkit-scrollbar {
+  width: 4px;
+}
+
+.device-screen::-webkit-scrollbar-thumb {
+  background: rgba(180, 83, 9, 0.25);
+  border-radius: 4px;
+}
+
+/* ==========================================================================
+   7. Ethiopian ROI & Savings Calculator (Ergonomic Touch Sliders)
+   ========================================================================== */
+
+.calculator-card {
+  background: var(--lux-bg-surface);
+  border: 1px solid var(--lux-border-delicate);
+  border-radius: var(--radius-card);
+  padding: var(--space-card-padding);
+  box-shadow: var(--lux-shadow-card);
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(300px, 1fr);
+  gap: clamp(1.5rem, 3vw, 3rem);
+  max-width: 1100px;
+  margin: 0 auto;
+  align-items: center;
+}
+
+/* Touch-optimized Range Sliders */
+.calc-slider-group {
+  margin-bottom: clamp(1.2rem, 2vw, 1.8rem);
+}
+
+.slider-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.65rem;
+  font-size: var(--font-ui);
+  font-weight: 600;
+  color: var(--lux-text-primary);
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 8px;
+  background: #E2E8F0;
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+  margin: 0.6rem 0;
+  transition: background 0.2s ease;
+}
+
+input[type="range"]:focus {
+  background: rgba(180, 83, 9, 0.2);
+}
+
+/* Large 44px Touch Target for Mobile Sliders */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--lux-copper-primary);
+  border: 3px solid #FFFFFF;
+  box-shadow: 0 2px 8px rgba(180, 83, 9, 0.4), 0 0 0 1px rgba(180, 83, 9, 0.2);
+  cursor: grab;
+  transition: transform 0.15s var(--touch-ease), box-shadow 0.15s var(--touch-ease);
+  will-change: transform;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--lux-copper-primary);
+  border: 3px solid #FFFFFF;
+  box-shadow: 0 2px 8px rgba(180, 83, 9, 0.4);
+  cursor: grab;
+}
+
+input[type="range"]:active::-webkit-slider-thumb {
+  cursor: grabbing;
+  transform: scale(1.18);
+  box-shadow: 0 4px 14px rgba(180, 83, 9, 0.6), 0 0 0 6px rgba(180, 83, 9, 0.15);
+}
+
+/* Calculator Savings Result Box (Zero Layout Shift) */
+.calc-results-box {
+  background: linear-gradient(145deg, #FFFFFF 0%, #F5F4EF 100%);
+  border: 1px solid var(--lux-border-delicate);
+  border-radius: calc(var(--radius-card) - 4px);
+  padding: clamp(1.5rem, 2.5vw, 2.5rem);
+  text-align: center;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+  min-height: 260px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.calc-savings-number {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(2rem, 3.8vw, 3.25rem);
+  font-weight: 800;
+  color: var(--lux-copper-primary);
+  line-height: 1.1;
+  margin: 0.65rem 0;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==========================================================================
+   8. Three-Tier Commercial Matrix (Responsive Grid to Snap-Carousel)
+   ========================================================================== */
+
+.tiers-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1.25rem, 2.2vw, 2.5rem);
+  max-width: 1240px;
+  margin: 0 auto;
+  align-items: stretch;
+}
+
+.tier-card {
+  background: var(--lux-bg-surface);
+  border: 1px solid var(--lux-border-delicate);
+  border-radius: var(--radius-card);
+  padding: var(--space-card-padding);
+  box-shadow: var(--lux-shadow-card);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: transform 0.3s var(--touch-ease), box-shadow 0.3s var(--touch-ease), border-color 0.3s ease;
+  will-change: transform;
+}
+
+.tier-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--lux-shadow-hover);
+  border-color: var(--lux-border-highlight);
+}
+
+.tier-card.featured {
+  border: 2px solid var(--lux-copper-primary);
+  box-shadow: 0 16px 40px -10px rgba(180, 83, 9, 0.18), 0 4px 12px rgba(15, 23, 42, 0.05);
+}
+
+.tier-badge-floating {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--lux-copper-primary);
+  color: #FFFFFF;
+  font-size: var(--font-micro);
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  padding: 0.3rem 0.85rem;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 4px 10px rgba(180, 83, 9, 0.3);
+  white-space: nowrap;
+}
+
+.tier-price-box {
+  margin: 1.25rem 0;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--lux-border-delicate);
+}
+
+.tier-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex-grow: 1;
+}
+
+.tier-features li {
+  font-size: var(--font-ui);
+  color: var(--lux-text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.tier-features li::before {
+  content: '✓';
+  color: var(--lux-copper-primary);
+  font-weight: 700;
+  font-size: 1.05rem;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   9. Executive Registration Console (Zero CLS Multi-Step Architecture)
+   ========================================================================== */
+
+.reg-container {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(340px, 1fr);
+  gap: clamp(1.5rem, 3vw, 3.5rem);
+  max-width: 1240px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+/* Multi-Step Interactive Console Card (CLS 0: strict min-height container) */
+.reg-card {
+  background: var(--lux-bg-surface);
+  border: 1px solid var(--lux-border-delicate);
+  border-radius: var(--radius-card);
+  padding: var(--space-card-padding);
+  box-shadow: var(--lux-shadow-card);
+  min-height: 660px; /* Reserves space so page does not jump on step transition */
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Stepper Navigation Bar */
+.stepper-nav {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.65rem;
+  margin-bottom: clamp(1.5rem, 2.5vw, 2.25rem);
+  border-bottom: 1px solid var(--lux-border-delicate);
+  padding-bottom: 1.25rem;
+}
+
+.step-indicator {
+  padding: 0.7rem 0.6rem;
+  text-align: center;
+  font-size: var(--font-caption);
+  font-weight: 600;
+  color: var(--lux-text-muted);
+  border-radius: var(--radius-button);
+  background: var(--lux-bg-subtle);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.25s var(--touch-ease);
+  min-height: var(--touch-target-min);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+
+.step-indicator.active {
+  color: var(--lux-copper-primary);
+  background: #FFFFFF;
+  border-color: var(--lux-copper-primary);
+  box-shadow: 0 4px 12px rgba(180, 83, 9, 0.12);
+  font-weight: 700;
+}
+
+.step-indicator.completed {
+  color: #166534;
+  background: #F0FDF4;
+  border-color: #BBF7D0;
+}
+
+.step-indicator.completed::after {
+  content: " ✓";
+  font-weight: bold;
+}
+
+/* Zero Layout Shift Step Panes */
+.reg-steps-viewport {
+  position: relative;
+  min-height: 520px;
+  flex-grow: 1;
+}
+
+.reg-step-pane {
+  will-change: opacity, transform;
+  transition: opacity 0.28s var(--touch-ease), transform 0.28s var(--touch-ease);
+}
+
+/* Role Segmented Controller */
+.role-segmented-box {
+  background: var(--lux-bg-subtle);
+  border: 1px solid var(--lux-border-delicate);
+  border-radius: 10px;
+  padding: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.role-segmented-label {
+  display: block;
+  font-size: var(--font-caption);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--lux-text-muted);
+  margin-bottom: 0.65rem;
+}
+
+.role-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.role-btn {
+  background: #FFFFFF;
+  border: 1.5px solid var(--lux-border-delicate);
+  border-radius: 8px;
+  padding: 0.95rem 1rem;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-height: 64px;
+  transition: all 0.2s var(--touch-ease);
+  will-change: transform, border-color, box-shadow;
+}
+
+.role-btn span {
+  font-size: var(--font-ui);
+  font-weight: 700;
+  color: var(--lux-text-primary);
+}
+
+.role-btn small {
+  font-size: var(--font-micro);
+  color: var(--lux-text-muted);
+}
+
+.role-btn.active {
+  border-color: var(--lux-copper-primary);
+  background: #FFFBEB;
+  box-shadow: 0 4px 12px rgba(180, 83, 9, 0.12);
+}
+
+.role-btn.active span {
+  color: var(--lux-copper-primary);
+}
+
+/* Step Form Inputs */
+.form-group {
+  margin-bottom: clamp(1rem, 1.6vw, 1.5rem);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-label {
+  display: block;
+  font-size: var(--font-caption);
+  font-weight: 600;
+  color: var(--lux-text-primary);
+  margin-bottom: 0.45rem;
+}
+
+.form-input,
+.form-textarea,
+.form-select {
+  width: 100%;
+  background: #FFFFFF;
+  border: 1px solid #CBD5E1;
+  border-radius: 8px;
+  padding: 0.85rem 1.1rem;
+  color: var(--lux-text-primary);
+  font-family: inherit;
+  font-size: 16px; /* Crucial: Prevents iOS Safari input focus zoom */
+  line-height: 1.5;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  min-height: var(--touch-target-min);
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+  outline: none;
+  border-color: var(--lux-copper-primary);
+  box-shadow: 0 0 0 3px rgba(180, 83, 9, 0.15);
+}
+
+.step-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--lux-border-delicate);
+  gap: 1rem;
+}
+
+/* Right: Live Brand Placard Preview Box (CLS 0: strict min-height) */
+.preview-box {
+  position: sticky;
+  top: clamp(5.5rem, 8vw, 7.5rem);
+  background: var(--lux-bg-surface);
+  border: 1px solid var(--lux-border-delicate);
+  border-radius: var(--radius-card);
+  padding: var(--space-card-padding);
+  box-shadow: var(--lux-shadow-card);
+  min-height: 480px;
+}
+
+/* ==========================================================================
+   10. Mobile Touch Physics & Haptic Active States (Coarse Pointer)
+   ========================================================================== */
+
+/* Buttons & Action Elements */
+.btn-cta,
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: var(--font-ui);
+  padding: 0.8rem 1.75rem;
+  border-radius: var(--radius-button);
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  min-height: var(--touch-target-min);
+  transition: transform 0.18s var(--touch-ease),
+              background 0.2s ease,
+              box-shadow 0.2s ease,
+              border-color 0.2s ease;
+  will-change: transform;
+}
+
+.btn-cta {
+  background: var(--lux-copper-primary);
+  color: #FFFFFF;
+  box-shadow: 0 4px 14px rgba(180, 83, 9, 0.28);
+}
+
+.btn-cta:hover {
+  background: var(--lux-copper-hover);
+  box-shadow: 0 6px 20px rgba(180, 83, 9, 0.35);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: #FFFFFF;
+  color: var(--lux-text-primary);
+  border-color: #CBD5E1;
+}
+
+.btn-secondary:hover {
+  background: var(--lux-bg-subtle);
+  border-color: var(--lux-copper-primary);
+}
+
+/* Touch Device Specific Physics (iOS & Android) */
+@media (hover: none) and (pointer: coarse) {
+  button:active,
+  .btn-cta:active,
+  .btn-secondary:active,
+  .perspective-tab:active,
+  .role-btn:active,
+  .step-indicator:active,
+  .tier-card:active,
+  .lang-pill:active {
+    transform: scale(var(--touch-press-scale)) translateZ(0) !important;
+    transition: transform 0.08s var(--touch-ease) !important;
+  }
+
+  .btn-cta:active {
+    background: var(--lux-copper-hover);
+    box-shadow: 0 2px 8px rgba(180, 83, 9, 0.2);
+  }
+
+  .perspective-tab:active {
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
+  }
+}
+
+/* ==========================================================================
+   11. Media Queries: Flawless Adaptation from 360px Mobile to 4K Ultrawide
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   A. Small to Medium Mobile Devices (<= 768px)
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 768px) {
+  /* Navigation Header */
+  header {
+    padding: 0.75rem 1rem;
+  }
+
+  .logo {
+    font-size: 1.25rem !important;
+  }
+
+  .nav-links {
+    display: none; /* Collapses desktop links in favor of primary action */
+  }
+
+  /* Hero Section */
+  .hero-section {
+    padding: 2.75rem 0 2rem 0;
+  }
+
+  .hero-cta-group {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .hero-cta-group .btn-cta,
+  .hero-cta-group .btn-secondary {
+    width: 100%;
+    min-height: 48px;
+  }
+
+  .hero-placards {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 1.75rem;
+  }
+
+  /* Simulator Section & Mobile Swipe Bar Mechanics */
+  .simulator-container {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+
+  /* Horizontal Momentum Scrolling Swipe Bar for Perspective Tabs */
+  .perspective-menu {
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: 0.5rem 1rem 1.25rem 1rem;
+    margin-left: calc(-1 * var(--space-section-x));
+    margin-right: calc(-1 * var(--space-section-x));
+    /* Edge fade gradient indicating scrollability */
+    mask-image: linear-gradient(to right, transparent, black 16px, black calc(100% - 16px), transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 16px, black calc(100% - 16px), transparent);
+  }
+
+  .perspective-menu::-webkit-scrollbar {
+    display: none;
+  }
+
+  .perspective-tab {
+    flex: 0 0 82%;
+    max-width: 310px;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+    padding: 1.1rem;
+  }
+
+  .perspective-tab::before {
+    left: 12px;
+    top: 0;
+    bottom: auto;
+    width: 40px;
+    height: 3px;
+    transform: scaleX(0.4);
+  }
+
+  .perspective-tab.active::before {
+    transform: scaleX(1);
+  }
+
+  /* Phone Simulator Adapts Gracefully to Full-Width Fluid Card */
+  .device-mockup {
+    width: 100%;
+    max-width: 380px;
+    height: auto;
+    min-height: 520px;
+    aspect-ratio: 9 / 18.5;
+    border-radius: 26px;
+    padding: 8px;
+    box-shadow: 0 12px 35px -5px rgba(15, 23, 42, 0.14), 0 0 0 1px var(--lux-border-delicate);
+  }
+
+  .device-speaker {
+    width: 72px;
+    height: 18px;
+    margin-bottom: 8px;
+  }
+
+  .device-screen {
+    border-radius: 20px;
+    min-height: 480px;
+    padding: 1rem;
+  }
+
+  /* Calculator Section */
+  .calculator-card {
+    grid-template-columns: 1fr;
+    padding: 1.35rem;
+    gap: 1.5rem;
+  }
+
+  .calc-results-box {
+    min-height: 200px;
+    padding: 1.25rem;
+  }
+
+  /* Three-Tier Matrix: Horizontal Momentum Swipe Bar */
+  .tiers-grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: 1rem 1rem 1.5rem 1rem;
+    margin-left: calc(-1 * var(--space-section-x));
+    margin-right: calc(-1 * var(--space-section-x));
+    mask-image: linear-gradient(to right, transparent, black 16px, black calc(100% - 16px), transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 16px, black calc(100% - 16px), transparent);
+  }
+
+  .tiers-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tier-card {
+    flex: 0 0 86%;
+    max-width: 330px;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+  }
+
+  /* Registration Console & Stepper */
+  .reg-container {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+
+  .reg-card {
+    min-height: auto;
+    padding: 1.25rem;
+  }
+
+  .stepper-nav {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 0.75rem;
+  }
+
+  .stepper-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .step-indicator {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    scroll-snap-align: start;
+    padding: 0.6rem 0.95rem;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .preview-box {
+    position: static;
+    min-height: auto;
+    padding: 1.25rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   B. Tablets & Small Laptops (769px to 1024px)
+   -------------------------------------------------------------------------- */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  .simulator-container {
+    grid-template-columns: 1.1fr 340px;
+    gap: 2rem;
+  }
+
+  .device-mockup {
+    width: 320px;
+    height: 640px;
+  }
+
+  .calculator-card {
+    grid-template-columns: 1.1fr 1fr;
+    gap: 2rem;
+  }
+
+  .tiers-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .tier-card {
+    padding: 1.5rem 1.15rem;
+  }
+
+  .reg-container {
+    grid-template-columns: 1.2fr 1fr;
+    gap: 2rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   C. Standard Desktop & High-DPI Displays (1025px to 1599px)
+   -------------------------------------------------------------------------- */
+@media screen and (min-width: 1025px) and (max-width: 1599px) {
+  .simulator-container {
+    grid-template-columns: 1.25fr 360px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   D. 2K, Ultrawide & 4K Ultra-HD Displays (>= 1600px to 3840px+)
+   -------------------------------------------------------------------------- */
+@media screen and (min-width: 1600px) {
+  .content-wrapper {
+    max-width: 1620px;
+  }
+
+  .simulator-container {
+    grid-template-columns: 1.3fr 400px;
+    gap: 4.5rem;
+  }
+
+  .device-mockup {
+    width: 390px;
+    height: 780px;
+    border-radius: 54px;
+    padding: 14px;
+  }
+
+  .device-screen {
+    min-height: 710px;
+  }
+
+  .calculator-card {
+    max-width: 1300px;
+  }
+
+  .tiers-grid {
+    max-width: 1440px;
+  }
+
+  .reg-container {
+    max-width: 1440px;
+  }
+}
+
+/* ==========================================================================
+   12. Accessibility: Prefers-Reduced-Motion Fallbacks
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .device-mockup,
+  .perspective-tab,
+  .tier-card {
+    transform: none !important;
+  }
+}

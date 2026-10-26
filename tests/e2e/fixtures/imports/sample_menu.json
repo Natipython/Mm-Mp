@@ -1,0 +1,22 @@
+{
+  "items": [
+    {
+      "name_en": "Traditional Shiro",
+      "name_am": "የባህል ሽሮ",
+      "price_etb_cents": 25000,
+      "category": "Fasting Dishes"
+    },
+    {
+      "name_en": "Beef Tibs Firfir",
+      "name_am": "የስጋ ጥብስ ፍርፍር",
+      "price_etb_cents": 45000,
+      "category": "Main Dishes"
+    },
+    {
+      "name_en": "Special Macchiato",
+      "name_am": "ስፔሻል ማኪያቶ",
+      "price_etb_cents": 11000,
+      "category": "Hot Beverages"
+    }
+  ]
+}

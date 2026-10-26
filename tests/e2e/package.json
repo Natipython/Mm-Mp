@@ -1,0 +1,16 @@
+{
+  "name": "mm-mp-e2e-tests",
+  "version": "1.0.0",
+  "description": "Comprehensive Opaque-Box E2E Test Suite for Mm-Mp Commercial Digital Menu & QR Payment Service",
+  "type": "module",
+  "scripts": {
+    "test": "node --test --test-reporter=spec",
+    "test:tier1": "node --test --test-reporter=spec tier1_features/**/*.test.mjs",
+    "test:tier2": "node --test --test-reporter=spec tier2_boundaries/**/*.test.mjs",
+    "test:tier3": "node --test --test-reporter=spec tier3_combinations/**/*.test.mjs",
+    "test:tier4": "node --test --test-reporter=spec tier4_scenarios/**/*.test.mjs",
+    "test:all": "./run_all.sh"
+  },
+  "author": "Mm-Mp E2E Testing Lead",
+  "license": "UNLICENSED"
+}

@@ -1,0 +1,2 @@
+# MenuMini Python Utility Service Requirements
+# Uses Python standard library for zero-dependency portability

@@ -1,0 +1,90 @@
+{
+  "venue": {
+    "name": "Bole Velvet Cafe & Roastery",
+    "slug": "bole-velvet-cafe",
+    "city": "Addis Ababa",
+    "subcity": "Bole",
+    "woreda": "03",
+    "currency": "ETB",
+    "placards": {
+      "telebirr": {
+        "shortcode": "848201",
+        "account_name": "Bole Velvet Cafe",
+        "commission_rate": "0%"
+      },
+      "cbe_birr": {
+        "account_number": "1000348921876",
+        "account_name": "Bole Velvet Cafe Enterprise",
+        "commission_rate": "0%"
+      }
+    }
+  },
+  "sections": [
+    {
+      "title_en": "Ethiopian Specialty Coffees",
+      "title_am": "የኢትዮጵያ ልዩ ቡናዎች",
+      "display_order": 1,
+      "items": [
+        {
+          "name_en": "Classic Addis Macchiato",
+          "name_am": "የአዲስ ማኪያቶ",
+          "description_en": "Rich double-shot espresso layered with steamed micro-foam milk",
+          "description_am": "በጥንቃቄ የተዘጋጀ ማኪያቶ ከትኩስ ወተት ጋር",
+          "price_etb_cents": 12000,
+          "available": true,
+          "modifiers": [
+            {
+              "name_en": "Milk Choice",
+              "name_am": "የወተት ምርጫ",
+              "options": [
+                { "name_en": "Whole Milk", "price_delta_cents": 0 },
+                { "name_en": "Oat Milk", "price_delta_cents": 3500 }
+              ]
+            }
+          ]
+        },
+        {
+          "name_en": "Yirgacheffe Single-Origin Pour Over",
+          "name_am": "የይርጋጨፌ ፊልተር ቡና",
+          "description_en": "Floral jasmine notes with citrus and peach undertones",
+          "description_am": "የይርጋጨፌ የተፈጥሮ ቃና ያለው ልዩ ቡና",
+          "price_etb_cents": 16000,
+          "available": true
+        }
+      ]
+    },
+    {
+      "title_en": "Hot Kitchen & Grills",
+      "title_am": "ትኩስ ምግቦች እና ጥብሶች",
+      "display_order": 2,
+      "items": [
+        {
+          "name_en": "Prime Shekla Tibs",
+          "name_am": "የሸክላ ጥብስ",
+          "description_en": "Sizzling prime beef cubes sauteed with rosemary, red onions and jalapeño served in clay burner",
+          "description_am": "በሸክላ ምጣድ የደረሰ የበሬ ጥብስ ከሮዝመሪ እና ቃሪያ ጋር",
+          "price_etb_cents": 68000,
+          "available": true,
+          "modifiers": [
+            {
+              "name_en": "Spice Level",
+              "name_am": "የማጣፈጫ መጠን",
+              "options": [
+                { "name_en": "Mitmita Hot", "price_delta_cents": 0 },
+                { "name_en": "Mild Rosemary", "price_delta_cents": 0 }
+              ]
+            }
+          ]
+        },
+        {
+          "name_en": "Clay-Pot Shiro Tegabino",
+          "name_am": "ሽሮ ተጋቢኖ በሸክላ",
+          "description_en": "Slow-simmered spiced chickpea stew bubbling hot with 2 rolls of fresh teff injera",
+          "description_am": "የተልባ እና የአተር ሽሮ ተጋቢኖ ከ2 እንጀራ ጋር",
+          "price_etb_cents": 32000,
+          "available": true
+        }
+      ]
+    }
+  ]
+}

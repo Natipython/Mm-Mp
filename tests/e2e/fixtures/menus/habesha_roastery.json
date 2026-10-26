@@ -1,0 +1,31 @@
+{
+  "venue": {
+    "name": "Habesha Coffee & Roastery",
+    "slug": "habesha-coffee-roastery",
+    "city": "Addis Ababa",
+    "subcity": "Kirkos",
+    "currency": "ETB",
+    "placards": {
+      "telebirr": { "shortcode": "551209", "account_name": "Habesha Roastery PLC" },
+      "cbe_birr": { "account_number": "1000992384712", "account_name": "Habesha Roastery PLC" }
+    }
+  },
+  "sections": [
+    {
+      "title_en": "Traditional Roasts & Ceremony",
+      "title_am": "የባህል ቡና እና ቁርስ",
+      "items": [
+        {
+          "name_en": "Sidama Natural Roast",
+          "name_am": "የሲዳማ የተፈጥሮ ቆሎ ቡና",
+          "price_etb_cents": 14000
+        },
+        {
+          "name_en": "Chechebsa with Pure Spiced Butter",
+          "name_am": "ጨጨብሳ በንጹህ ቅቤ እና ማር",
+          "price_etb_cents": 28000
+        }
+      ]
+    }
+  ]
+}
